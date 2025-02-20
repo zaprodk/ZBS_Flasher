@@ -1,0 +1,1 @@
+zbs_flasher.exe COM5 write GPIO_fast_flash_final_v1.bin reset
