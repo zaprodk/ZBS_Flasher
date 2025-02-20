@@ -243,7 +243,7 @@ void uart_cmd(uint8_t rx_cur)
 
 void UART_IRQ1(void) __interrupt(0)
 {
-	//P1_0 = 1;
+	// P1_0 = 1;
 	if (UARTSTA & 1)
 	{
 		UARTSTA &= 0xfe;
@@ -265,7 +265,7 @@ void UART_IRQ1(void) __interrupt(0)
 		}
 		tx_free = 0;
 	}
-	//P1_0 = 0;
+	// P1_0 = 0;
 }
 
 void main(void)
@@ -304,7 +304,6 @@ void main(void)
 		flashWrite(0xe000, &display_loaded_buffer[0], 1, 1);
 	}
 
-
 	uint8_t oldstate = 0;
 	lut5_active = true; // Enable the LUT5 for fast switching between white/black
 	for (uint8_t i = 0; i < 14; i++)
@@ -312,41 +311,41 @@ void main(void)
 		// Fill with all white
 		display_loaded_buffer[i] = 0b10101010;
 	}
-	 	while (1)
-		{
-			// White
-			if (P1_0 == 1 && oldstate == 1)
-			{
-				oldstate = 0;
-				screenDraw(&display_loaded_buffer[0], 0, 0);
-				while (is_drawing())
-				{
-				}
-			}
-			// Black (inverted)
-			if (P1_0 == 0 && oldstate == 0)
-			{
-				oldstate = 1;
-				screenDraw(&display_loaded_buffer[0], 1, 0);
-				while (is_drawing())
-				{
-				}
-			}
-		} 
-
-/* 	while (1)
+	while (1)
 	{
-		// Toggle state
-		oldstate = !oldstate;
-
-		// Draw screen based on state
-		screenDraw(&display_loaded_buffer[0], oldstate, 0);
-
-		// Wait for drawing to complete
-		while (is_drawing())
+		// White
+		if (P1_0 == 1 && oldstate == 1)
 		{
+			oldstate = 0;
+			screenDraw(&display_loaded_buffer[0], 0, 0);
+			while (is_drawing())
+			{
+			}
 		}
-	} */
+		// Black (inverted)
+		if (P1_0 == 0 && oldstate == 0)
+		{
+			oldstate = 1;
+			screenDraw(&display_loaded_buffer[0], 1, 0);
+			while (is_drawing())
+			{
+			}
+		}
+	}
+
+	/* 	while (1)
+		{
+			// Toggle state
+			oldstate = !oldstate;
+
+			// Draw screen based on state
+			screenDraw(&display_loaded_buffer[0], oldstate, 0);
+
+			// Wait for drawing to complete
+			while (is_drawing())
+			{
+			}
+		} */
 
 	while (is_drawing() || (timerGet() - start_time < stay_awake_time))
 	{
@@ -374,5 +373,5 @@ void main(void)
 			}
 		}
 	}
-	//sleep();
+	// sleep();
 }

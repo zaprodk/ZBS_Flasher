@@ -12,11 +12,11 @@ extern bool lut5_active;
 #define B24(a, b, c) (((uint32_t)(a) << 16) | ((uint32_t)(b) << 8) | (c))
 #define B24_6BIT(a, b, c, d) (((uint32_t)(a) << 18) | ((uint32_t)(b) << 12) | ((uint32_t)(c) << 6) | (d))
 #define B24_10_10_4(a, b, c) (((uint32_t)(a) << 14) | ((uint32_t)(b) << 4) | (c))
-#define B24_8_2_8_2_4(a, b, c, d, e) (((uint32_t)(a) << 16) | \
-                                      ((uint32_t)(b & 0x3) << 14) | \
-                                      ((uint32_t)(c) << 6)  | \
-                                      ((uint32_t)(d & 0x3) << 4)  | \
-                                      ((uint32_t)(e & 0xF)))
+#define B24_8_2_8_2_4(a, b, c, d, e) (((uint32_t)(a) << 16) |       \
+									  ((uint32_t)(b & 0x3) << 14) | \
+									  ((uint32_t)(c) << 6) |        \
+									  ((uint32_t)(d & 0x3) << 4) |  \
+									  ((uint32_t)(e & 0xF)))
 
 #pragma callee_saves screenPrvTimedWait
 static __bit screenPrvTimedWait(uint32_t maxTicks)
@@ -121,61 +121,59 @@ __bit screenDraw(const uint8_t __xdata *data, __bit inverted, __bit custom_lut)
 		// LUTs
 		if (!screenPrvRegWrite(0x14, LUT1_NORMAL)) // RPT 0xF
 			return false;
-		if (!screenPrvRegWrite(0x15, inverted ? LUT2_NORMAL : LUT2_INVERT))
-			return false;
-		if (!screenPrvRegWrite(0x16, inverted ? LUT3_NORMAL : LUT3_INVERT))
-			return false;
+	if (!screenPrvRegWrite(0x15, inverted ? LUT2_NORMAL : LUT2_INVERT))
+		return false;
+	if (!screenPrvRegWrite(0x16, inverted ? LUT3_NORMAL : LUT3_INVERT))
+		return false;
 
 #define LUT5_NORMAL B24_8_2_8_2_4(0b10000110, 0x01, 0x0, 0x00, 0x0000)
 #define LUT5_INVERT B24_8_2_8_2_4(0b01101000, 0x01, 0x0, 0x00, 0x0000)
 
-		//-----------------------------------------------------------------------------------------------------------------------
-		if (!screenPrvRegWrite(0x18, inverted ? LUT5_NORMAL : LUT5_INVERT)) // Waveform LUT5
-			return false;
+	//-----------------------------------------------------------------------------------------------------------------------
+	if (!screenPrvRegWrite(0x18, inverted ? LUT5_NORMAL : LUT5_INVERT)) // Waveform LUT5
+		return false;
 #define LUT8 B24_6BIT(0b010100, 0x0, 0x0, 0x0)
 
-		if (!screenPrvRegWrite(0x1b, LUT8)) // Waveform LUT8 - Timing 3
-			return false;
-		//-----------------------------------------------------------------------------------------------------------------------
+	if (!screenPrvRegWrite(0x1b, LUT8)) // Waveform LUT8 - Timing 3
+		return false;
+	//-----------------------------------------------------------------------------------------------------------------------
 #define LUT6 B24_6BIT(0b000010, 0b000010, 0b010100, 0b010100)
 #define LUT7 B24_6BIT(0b101000, 0b000010, 0x0, 0x0)
-		if (!screenPrvRegWrite(0x19, LUT6)) // Waveform LUT6 - Timing 1
-			return false;
-		if (!screenPrvRegWrite(0x1a, 0xa02000)) // Waveform LUT7 - Timing 2
-			return false;
+	if (!screenPrvRegWrite(0x19, LUT6)) // Waveform LUT6 - Timing 1
+		return false;
+	if (!screenPrvRegWrite(0x1a, 0xa02000)) // Waveform LUT7 - Timing 2
+		return false;
 
-
-
-		// update!
-		if (lut5_active)
-		{
-#undef 	UPDATE_NORMAL
-#undef 	UPDATE_INVERT
+	// update!
+	if (lut5_active)
+	{
+#undef UPDATE_NORMAL
+#undef UPDATE_INVERT
 #define UPDATE_NORMAL B24(0b10100000, 0x0, 0x1)
 #define UPDATE_INVERT B24(0b10000000, 0x0, 0x1)
-			//-----------------------------------------------------------------------------------------------------------------------
-			if (!screenPrvRegWrite(0x00, inverted ? UPDATE_NORMAL : UPDATE_INVERT)) // Only use LUT5.
-				return false;
-			//-----------------------------------------------------------------------------------------------------------------------
-		}
-		else
-		{
-#undef 	UPDATE_NORMAL
-#undef 	UPDATE_INVERT
-//#define UPDATE_NORMAL B24(0b10100000, 0x0, 0b00011100)
-//#define UPDATE_INVERT B24(0b10000000, 0x0, 0b00011100)
+		//-----------------------------------------------------------------------------------------------------------------------
+		if (!screenPrvRegWrite(0x00, inverted ? UPDATE_NORMAL : UPDATE_INVERT)) // Only use LUT5.
+			return false;
+		//-----------------------------------------------------------------------------------------------------------------------
+	}
+	else
+	{
+#undef UPDATE_NORMAL
+#undef UPDATE_INVERT
+// #define UPDATE_NORMAL B24(0b10100000, 0x0, 0b00011100)
+// #define UPDATE_INVERT B24(0b10000000, 0x0, 0b00011100)
 #define UPDATE_NORMAL B24(0b10100000, 0x0, 0b00011100)
 #define UPDATE_INVERT B24(0b10000000, 0x0, 0b00011100)
 
-			if (!screenPrvRegWrite(0x00, inverted ? UPDATE_NORMAL : UPDATE_INVERT)) // LUT 1,2,3 used.
-				return false;
-		}
+		if (!screenPrvRegWrite(0x00, inverted ? UPDATE_NORMAL : UPDATE_INVERT)) // LUT 1,2,3 used.
+			return false;
 	}
-	timerDelay(TIMER_TICKS_PER_SECOND / 1000);
+}
+timerDelay(TIMER_TICKS_PER_SECOND / 1000);
 
-	screen_start_time = timerGet();
-	display_is_drawing = 1;
-	return true;
+screen_start_time = timerGet();
+display_is_drawing = 1;
+return true;
 }
 
 void display_end()
@@ -191,7 +189,7 @@ uint8_t is_drawing()
 {
 	if (display_is_drawing)
 	{
-		if (!P2_0 || (timerGet() - screen_start_time > (TIMER_TICKS_PER_SECOND*3)))
+		if (!P2_0 || (timerGet() - screen_start_time > (TIMER_TICKS_PER_SECOND * 3)))
 		{
 			display_end();
 			display_is_drawing = 0;
