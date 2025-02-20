@@ -30,6 +30,8 @@ __xdata uint8_t display_loaded_buffer[200];
 __bit used_buffer = 0;
 __bit new_cmd = 0;
 
+bool lut5_active = false;
+
 __bit out_enable = 0;
 uint16_t out_posi = 0;
 uint16_t out_end_len = 0;
@@ -241,7 +243,7 @@ void uart_cmd(uint8_t rx_cur)
 
 void UART_IRQ1(void) __interrupt(0)
 {
-	P1_0 = 1;
+	//P1_0 = 1;
 	if (UARTSTA & 1)
 	{
 		UARTSTA &= 0xfe;
@@ -263,7 +265,7 @@ void UART_IRQ1(void) __interrupt(0)
 		}
 		tx_free = 0;
 	}
-	P1_0 = 0;
+	//P1_0 = 0;
 }
 
 void main(void)
@@ -278,16 +280,73 @@ void main(void)
 	flashRead(0xe000, &display_loaded_buffer[0], 1);
 	if (display_loaded_buffer[0] != 0xAC)
 	{
-		display_loaded_buffer[3] = 0b01101000; /*number small last*/
-		display_loaded_buffer[4] = 0b11101000; /*number small after point*/
-		display_loaded_buffer[2] = 0b11111100; /*number small before point*/
-		screenDraw(&display_loaded_buffer[1], 0, 0);
+		/*  		display_loaded_buffer[4] = 0b11100000;
+				display_loaded_buffer[3] = 0b11110110;
+				display_loaded_buffer[2] = 0b00111110;
+				display_loaded_buffer[1] = 0b111011100;
+				display_loaded_buffer[11] = 0b00011111;  */
+		display_loaded_buffer[1] = 0xFE;
+		display_loaded_buffer[2] = 0xFF;
+		display_loaded_buffer[3] = 0xFF;
+		display_loaded_buffer[4] = 0xFF;
+		display_loaded_buffer[5] = 0xFF;
+		display_loaded_buffer[6] = 0xFF;
+		display_loaded_buffer[7] = 0xFF;
+		display_loaded_buffer[8] = 0xFF;
+		display_loaded_buffer[9] = 0xFF;
+		display_loaded_buffer[10] = 0xFF;
+		display_loaded_buffer[11] = 0xFF;
+		screenDraw(&display_loaded_buffer[1], 0, 0); // Read data from second byte in array.
 		while (is_drawing())
 		{
 		}
 		display_loaded_buffer[0] = 0xAC;
 		flashWrite(0xe000, &display_loaded_buffer[0], 1, 1);
 	}
+
+
+	uint8_t oldstate = 0;
+	lut5_active = true; // Enable the LUT5 for fast switching between white/black
+	for (uint8_t i = 0; i < 14; i++)
+	{
+		// Fill with all white
+		display_loaded_buffer[i] = 0b10101010;
+	}
+	 	while (1)
+		{
+			// White
+			if (P1_0 == 1 && oldstate == 1)
+			{
+				oldstate = 0;
+				screenDraw(&display_loaded_buffer[0], 0, 0);
+				while (is_drawing())
+				{
+				}
+			}
+			// Black (inverted)
+			if (P1_0 == 0 && oldstate == 0)
+			{
+				oldstate = 1;
+				screenDraw(&display_loaded_buffer[0], 1, 0);
+				while (is_drawing())
+				{
+				}
+			}
+		} 
+
+/* 	while (1)
+	{
+		// Toggle state
+		oldstate = !oldstate;
+
+		// Draw screen based on state
+		screenDraw(&display_loaded_buffer[0], oldstate, 0);
+
+		// Wait for drawing to complete
+		while (is_drawing())
+		{
+		}
+	} */
 
 	while (is_drawing() || (timerGet() - start_time < stay_awake_time))
 	{
@@ -315,5 +374,5 @@ void main(void)
 			}
 		}
 	}
-	sleep();
+	//sleep();
 }
