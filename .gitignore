@@ -51,3 +51,4 @@ custom-firmware/UART_SEGMENT_EPD/wdt.lst
 custom-firmware/UART_SEGMENT_EPD/wdt.rel
 custom-firmware/UART_SEGMENT_EPD/wdt.rst
 custom-firmware/UART_SEGMENT_EPD/wdt.sym
+custom-firmware/UART_SEGMENT_EPD/main.bin
