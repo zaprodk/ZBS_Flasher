@@ -1,0 +1,1349 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.1 #12107 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module screenSegmented
+                                      6 	.optsdcc -mmcs51 --model-large
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _spiByte
+                                     12 	.globl _timerDelay
+                                     13 	.globl _timerGet
+                                     14 	.globl _UART_TXE
+                                     15 	.globl _UART_RXF
+                                     16 	.globl _IEN_EA
+                                     17 	.globl _IEN_RF2
+                                     18 	.globl _IEN_RF1
+                                     19 	.globl _IEN_TMR1
+                                     20 	.globl _IEN_TMR0
+                                     21 	.globl _IEN_UART0
+                                     22 	.globl _P2_7
+                                     23 	.globl _P2_6
+                                     24 	.globl _P2_5
+                                     25 	.globl _P2_4
+                                     26 	.globl _P2_3
+                                     27 	.globl _P2_2
+                                     28 	.globl _P2_1
+                                     29 	.globl _P2_0
+                                     30 	.globl _P1_7
+                                     31 	.globl _P1_6
+                                     32 	.globl _P1_5
+                                     33 	.globl _P1_4
+                                     34 	.globl _P1_3
+                                     35 	.globl _P1_2
+                                     36 	.globl _P1_1
+                                     37 	.globl _P1_0
+                                     38 	.globl _P0_7
+                                     39 	.globl _P0_6
+                                     40 	.globl _P0_5
+                                     41 	.globl _P0_4
+                                     42 	.globl _P0_3
+                                     43 	.globl _P0_2
+                                     44 	.globl _P0_1
+                                     45 	.globl _P0_0
+                                     46 	.globl _CFGPAGE
+                                     47 	.globl _TCON2
+                                     48 	.globl _SETTINGS
+                                     49 	.globl _TRIGGER
+                                     50 	.globl _UNK_C1
+                                     51 	.globl _RADIO_GOTLEN
+                                     52 	.globl _RADIO_INITSEQ3
+                                     53 	.globl _RADIO_RXLEN
+                                     54 	.globl _RADIO_RXPTRH
+                                     55 	.globl _RADIO_RXPTRL
+                                     56 	.globl _RADIO_INITSEQ5
+                                     57 	.globl _RADIO_INITSEQ4
+                                     58 	.globl _RADIO_INITSEQ0
+                                     59 	.globl _RADIO_TXLEN
+                                     60 	.globl _RADIO_INITSEQ2
+                                     61 	.globl _RADIO_INITSEQ1
+                                     62 	.globl _RADIO_TXPTRH
+                                     63 	.globl _RADIO_TXPTRL
+                                     64 	.globl _TEMPCAL6
+                                     65 	.globl _TEMPCAL5
+                                     66 	.globl _TEMPCAL4
+                                     67 	.globl _TEMPCAL3
+                                     68 	.globl _TEMPRETL
+                                     69 	.globl _TEMPRETH
+                                     70 	.globl _TEMPCFG
+                                     71 	.globl _TEMPCAL2
+                                     72 	.globl _TEMPCAL1
+                                     73 	.globl _FWRTHREE
+                                     74 	.globl _FWRLENH
+                                     75 	.globl _FWRLENL
+                                     76 	.globl _FWRDSTH
+                                     77 	.globl _FWRDSTL
+                                     78 	.globl _FWRSRCH
+                                     79 	.globl _FWRSRCL
+                                     80 	.globl _FPGNO
+                                     81 	.globl _T1
+                                     82 	.globl _T0
+                                     83 	.globl _TH1
+                                     84 	.globl _TH0
+                                     85 	.globl _TL1
+                                     86 	.globl _TL0
+                                     87 	.globl _TMOD
+                                     88 	.globl _TCON
+                                     89 	.globl _UARTBRGH
+                                     90 	.globl _UARTBRGL
+                                     91 	.globl _UARTBUF
+                                     92 	.globl _UARTSTA
+                                     93 	.globl _I2CUNKNOWN
+                                     94 	.globl _I2CSPEED
+                                     95 	.globl _I2CCTL
+                                     96 	.globl _I2CBUF
+                                     97 	.globl _I2CSTATE
+                                     98 	.globl _SPIRX
+                                     99 	.globl _SPITX
+                                    100 	.globl _SPIENA
+                                    101 	.globl _SPICFG
+                                    102 	.globl _SPIUNKNOWN
+                                    103 	.globl _WDTCONF
+                                    104 	.globl _WDTRSTVALH
+                                    105 	.globl _WDTRSTVALM
+                                    106 	.globl _WDTRSTVALL
+                                    107 	.globl _WDTPET
+                                    108 	.globl _WDTENA
+                                    109 	.globl _RESET
+                                    110 	.globl _CLKEN
+                                    111 	.globl _CLKSPEED
+                                    112 	.globl _IEN1
+                                    113 	.globl _IEN0
+                                    114 	.globl _XPAGE
+                                    115 	.globl _P2PULL
+                                    116 	.globl _P1PULL
+                                    117 	.globl _P0PULL
+                                    118 	.globl _P2DIR
+                                    119 	.globl _P1DIR
+                                    120 	.globl _P0DIR
+                                    121 	.globl _P2FUNC
+                                    122 	.globl _P1FUNC
+                                    123 	.globl _P0FUNC
+                                    124 	.globl _P2CHSTA
+                                    125 	.globl _P1CHSTA
+                                    126 	.globl _P0CHSTA
+                                    127 	.globl _P2INTEN
+                                    128 	.globl _P1INTEN
+                                    129 	.globl _P0INTEN
+                                    130 	.globl _P2LVLSEL
+                                    131 	.globl _P1LVLSEL
+                                    132 	.globl _P0LVLSEL
+                                    133 	.globl _P2
+                                    134 	.globl _P1
+                                    135 	.globl _P0
+                                    136 	.globl _PERFMON4
+                                    137 	.globl _PCL
+                                    138 	.globl _PCH
+                                    139 	.globl _PERFMON1
+                                    140 	.globl _PERFMON0
+                                    141 	.globl _PCON
+                                    142 	.globl _DPS
+                                    143 	.globl _DPH1
+                                    144 	.globl _DPL1
+                                    145 	.globl _DPH
+                                    146 	.globl _DPL
+                                    147 	.globl _ACC
+                                    148 	.globl _B
+                                    149 	.globl _screen_start_time
+                                    150 	.globl _screenDraw_PARM_3
+                                    151 	.globl _screenDraw_PARM_2
+                                    152 	.globl _display_is_drawing
+                                    153 	.globl _screenDraw
+                                    154 	.globl _display_end
+                                    155 	.globl _is_drawing
+                                    156 ;--------------------------------------------------------
+                                    157 ; special function registers
+                                    158 ;--------------------------------------------------------
+                                    159 	.area RSEG    (ABS,DATA)
+      000000                        160 	.org 0x0000
+                           0000F0   161 _B	=	0x00f0
+                           0000E0   162 _ACC	=	0x00e0
+                           000082   163 _DPL	=	0x0082
+                           000083   164 _DPH	=	0x0083
+                           000084   165 _DPL1	=	0x0084
+                           000085   166 _DPH1	=	0x0085
+                           000092   167 _DPS	=	0x0092
+                           000087   168 _PCON	=	0x0087
+                           0000B2   169 _PERFMON0	=	0x00b2
+                           0000B3   170 _PERFMON1	=	0x00b3
+                           0000B4   171 _PCH	=	0x00b4
+                           0000B5   172 _PCL	=	0x00b5
+                           0000B6   173 _PERFMON4	=	0x00b6
+                           000080   174 _P0	=	0x0080
+                           000090   175 _P1	=	0x0090
+                           0000A0   176 _P2	=	0x00a0
+                           0000A3   177 _P0LVLSEL	=	0x00a3
+                           0000A4   178 _P1LVLSEL	=	0x00a4
+                           0000A5   179 _P2LVLSEL	=	0x00a5
+                           0000A6   180 _P0INTEN	=	0x00a6
+                           0000A7   181 _P1INTEN	=	0x00a7
+                           0000A9   182 _P2INTEN	=	0x00a9
+                           0000AA   183 _P0CHSTA	=	0x00aa
+                           0000AB   184 _P1CHSTA	=	0x00ab
+                           0000AC   185 _P2CHSTA	=	0x00ac
+                           0000AD   186 _P0FUNC	=	0x00ad
+                           0000AE   187 _P1FUNC	=	0x00ae
+                           0000AF   188 _P2FUNC	=	0x00af
+                           0000B9   189 _P0DIR	=	0x00b9
+                           0000BA   190 _P1DIR	=	0x00ba
+                           0000BB   191 _P2DIR	=	0x00bb
+                           0000BC   192 _P0PULL	=	0x00bc
+                           0000BD   193 _P1PULL	=	0x00bd
+                           0000BE   194 _P2PULL	=	0x00be
+                           0000A0   195 _XPAGE	=	0x00a0
+                           0000A8   196 _IEN0	=	0x00a8
+                           0000A1   197 _IEN1	=	0x00a1
+                           00008E   198 _CLKSPEED	=	0x008e
+                           0000B7   199 _CLKEN	=	0x00b7
+                           00008F   200 _RESET	=	0x008f
+                           0000BA   201 _WDTENA	=	0x00ba
+                           0000BB   202 _WDTPET	=	0x00bb
+                           0000BC   203 _WDTRSTVALL	=	0x00bc
+                           0000BD   204 _WDTRSTVALM	=	0x00bd
+                           0000BE   205 _WDTRSTVALH	=	0x00be
+                           0000BF   206 _WDTCONF	=	0x00bf
+                           0000EB   207 _SPIUNKNOWN	=	0x00eb
+                           0000EC   208 _SPICFG	=	0x00ec
+                           0000ED   209 _SPIENA	=	0x00ed
+                           0000EE   210 _SPITX	=	0x00ee
+                           0000EF   211 _SPIRX	=	0x00ef
+                           000091   212 _I2CSTATE	=	0x0091
+                           000094   213 _I2CBUF	=	0x0094
+                           000095   214 _I2CCTL	=	0x0095
+                           000096   215 _I2CSPEED	=	0x0096
+                           0000A2   216 _I2CUNKNOWN	=	0x00a2
+                           000098   217 _UARTSTA	=	0x0098
+                           000099   218 _UARTBUF	=	0x0099
+                           00009A   219 _UARTBRGL	=	0x009a
+                           00009B   220 _UARTBRGH	=	0x009b
+                           000088   221 _TCON	=	0x0088
+                           000089   222 _TMOD	=	0x0089
+                           00008A   223 _TL0	=	0x008a
+                           00008B   224 _TL1	=	0x008b
+                           00008C   225 _TH0	=	0x008c
+                           00008D   226 _TH1	=	0x008d
+                           008C8A   227 _T0	=	0x8c8a
+                           008D8B   228 _T1	=	0x8d8b
+                           0000D8   229 _FPGNO	=	0x00d8
+                           0000D9   230 _FWRSRCL	=	0x00d9
+                           0000DA   231 _FWRSRCH	=	0x00da
+                           0000DB   232 _FWRDSTL	=	0x00db
+                           0000DC   233 _FWRDSTH	=	0x00dc
+                           0000DD   234 _FWRLENL	=	0x00dd
+                           0000DE   235 _FWRLENH	=	0x00de
+                           0000DF   236 _FWRTHREE	=	0x00df
+                           0000E6   237 _TEMPCAL1	=	0x00e6
+                           0000E7   238 _TEMPCAL2	=	0x00e7
+                           0000F7   239 _TEMPCFG	=	0x00f7
+                           0000F8   240 _TEMPRETH	=	0x00f8
+                           0000F9   241 _TEMPRETL	=	0x00f9
+                           0000FB   242 _TEMPCAL3	=	0x00fb
+                           0000FC   243 _TEMPCAL4	=	0x00fc
+                           0000FD   244 _TEMPCAL5	=	0x00fd
+                           0000FE   245 _TEMPCAL6	=	0x00fe
+                           0000C9   246 _RADIO_TXPTRL	=	0x00c9
+                           0000CA   247 _RADIO_TXPTRH	=	0x00ca
+                           0000CB   248 _RADIO_INITSEQ1	=	0x00cb
+                           0000CC   249 _RADIO_INITSEQ2	=	0x00cc
+                           0000CD   250 _RADIO_TXLEN	=	0x00cd
+                           0000CE   251 _RADIO_INITSEQ0	=	0x00ce
+                           0000D1   252 _RADIO_INITSEQ4	=	0x00d1
+                           0000D2   253 _RADIO_INITSEQ5	=	0x00d2
+                           0000D3   254 _RADIO_RXPTRL	=	0x00d3
+                           0000D4   255 _RADIO_RXPTRH	=	0x00d4
+                           0000D5   256 _RADIO_RXLEN	=	0x00d5
+                           0000D6   257 _RADIO_INITSEQ3	=	0x00d6
+                           0000FA   258 _RADIO_GOTLEN	=	0x00fa
+                           0000C1   259 _UNK_C1	=	0x00c1
+                           0000D7   260 _TRIGGER	=	0x00d7
+                           0000C7   261 _SETTINGS	=	0x00c7
+                           0000CF   262 _TCON2	=	0x00cf
+                           0000FF   263 _CFGPAGE	=	0x00ff
+                                    264 ;--------------------------------------------------------
+                                    265 ; special function bits
+                                    266 ;--------------------------------------------------------
+                                    267 	.area RSEG    (ABS,DATA)
+      000000                        268 	.org 0x0000
+                           000080   269 _P0_0	=	0x0080
+                           000081   270 _P0_1	=	0x0081
+                           000082   271 _P0_2	=	0x0082
+                           000083   272 _P0_3	=	0x0083
+                           000084   273 _P0_4	=	0x0084
+                           000085   274 _P0_5	=	0x0085
+                           000086   275 _P0_6	=	0x0086
+                           000087   276 _P0_7	=	0x0087
+                           000090   277 _P1_0	=	0x0090
+                           000091   278 _P1_1	=	0x0091
+                           000092   279 _P1_2	=	0x0092
+                           000093   280 _P1_3	=	0x0093
+                           000094   281 _P1_4	=	0x0094
+                           000095   282 _P1_5	=	0x0095
+                           000096   283 _P1_6	=	0x0096
+                           000097   284 _P1_7	=	0x0097
+                           0000A0   285 _P2_0	=	0x00a0
+                           0000A1   286 _P2_1	=	0x00a1
+                           0000A2   287 _P2_2	=	0x00a2
+                           0000A3   288 _P2_3	=	0x00a3
+                           0000A4   289 _P2_4	=	0x00a4
+                           0000A5   290 _P2_5	=	0x00a5
+                           0000A6   291 _P2_6	=	0x00a6
+                           0000A7   292 _P2_7	=	0x00a7
+                           0000A8   293 _IEN_UART0	=	0x00a8
+                           0000A9   294 _IEN_TMR0	=	0x00a9
+                           0000AB   295 _IEN_TMR1	=	0x00ab
+                           0000AC   296 _IEN_RF1	=	0x00ac
+                           0000AD   297 _IEN_RF2	=	0x00ad
+                           0000AF   298 _IEN_EA	=	0x00af
+                           000098   299 _UART_RXF	=	0x0098
+                           000099   300 _UART_TXE	=	0x0099
+                                    301 ;--------------------------------------------------------
+                                    302 ; overlayable register banks
+                                    303 ;--------------------------------------------------------
+                                    304 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        305 	.ds 8
+                                    306 ;--------------------------------------------------------
+                                    307 ; internal ram data
+                                    308 ;--------------------------------------------------------
+                                    309 	.area DSEG    (DATA)
+      000000                        310 _screenPrvTimedWait_sloc0_1_0:
+      000000                        311 	.ds 4
+                                    312 ;--------------------------------------------------------
+                                    313 ; overlayable items in internal ram 
+                                    314 ;--------------------------------------------------------
+                                    315 ;--------------------------------------------------------
+                                    316 ; indirectly addressable internal ram data
+                                    317 ;--------------------------------------------------------
+                                    318 	.area ISEG    (DATA)
+                           000000   319 _R0	=	0x0000
+                           000001   320 _R1	=	0x0001
+                           000002   321 _R2	=	0x0002
+                           000003   322 _R3	=	0x0003
+                           000004   323 _R4	=	0x0004
+                           000005   324 _R5	=	0x0005
+                           000006   325 _R6	=	0x0006
+                           000007   326 _R7	=	0x0007
+                                    327 ;--------------------------------------------------------
+                                    328 ; absolute internal ram data
+                                    329 ;--------------------------------------------------------
+                                    330 	.area IABS    (ABS,DATA)
+                                    331 	.area IABS    (ABS,DATA)
+                                    332 ;--------------------------------------------------------
+                                    333 ; bit data
+                                    334 ;--------------------------------------------------------
+                                    335 	.area BSEG    (BIT)
+      000000                        336 _display_is_drawing::
+      000000                        337 	.ds 1
+      000001                        338 _screenDraw_PARM_2:
+      000001                        339 	.ds 1
+      000002                        340 _screenDraw_PARM_3:
+      000002                        341 	.ds 1
+                                    342 ;--------------------------------------------------------
+                                    343 ; paged external ram data
+                                    344 ;--------------------------------------------------------
+                                    345 	.area PSEG    (PAG,XDATA)
+                                    346 ;--------------------------------------------------------
+                                    347 ; external ram data
+                                    348 ;--------------------------------------------------------
+                                    349 	.area XSEG    (XDATA)
+                           00DF48   350 _RADIO_command	=	0xdf48
+                           00DF70   351 _RADIO_calibration_70	=	0xdf70
+                           00DF71   352 _RADIO_calibration_71	=	0xdf71
+                           00DF80   353 _RADIO_FLAGS	=	0xdf80
+                           00DF81   354 _RADIO_calibration_81	=	0xdf81
+                           00DF83   355 _RADIO_unk_83	=	0xdf83
+                           00DF84   356 _RADIO_currentRSSI	=	0xdf84
+                           00DF86   357 _RADIO_calibration_86	=	0xdf86
+                           00DF88   358 _RADIO_ownMac_7	=	0xdf88
+                           00DF89   359 _RADIO_ownMac_6	=	0xdf89
+                           00DF8A   360 _RADIO_ownMac_5	=	0xdf8a
+                           00DF8B   361 _RADIO_ownMac_4	=	0xdf8b
+                           00DF8C   362 _RADIO_ownMac_3	=	0xdf8c
+                           00DF8D   363 _RADIO_ownMac_2	=	0xdf8d
+                           00DF8E   364 _RADIO_ownMac_1	=	0xdf8e
+                           00DF8F   365 _RADIO_ownMac_0	=	0xdf8f
+                           00DF90   366 _RADIO_PANID_Hi	=	0xdf90
+                           00DF91   367 _RADIO_PANID_Lo	=	0xdf91
+                           00DF92   368 _RADIO_ownShortAddress_Hi	=	0xdf92
+                           00DF93   369 _RADIO_ownShortAddress_Lo	=	0xdf93
+                           00DF94   370 _RADIO_calibration_94	=	0xdf94
+                           00DF95   371 _RADIO_calibration_95	=	0xdf95
+                           00DF96   372 _RADIO_calibration_96	=	0xdf96
+                           00DF98   373 _RADIO_rxFirstByte	=	0xdf98
+                           00DF9B   374 _RADIO_curRfState	=	0xdf9b
+                           00DF9D   375 _RADIO_calibration_9D	=	0xdf9d
+                           00DFA1   376 _RADIO_calibration_A1	=	0xdfa1
+                           00DFA5   377 _RADIO_unk_rxAckSta	=	0xdfa5
+                           00DFA6   378 _RADIO_unk_A6	=	0xdfa6
+                           00DFAD   379 _RADIO_IRQ4_pending	=	0xdfad
+                           00DFAF   380 _RADIO_unk_AF	=	0xdfaf
+                           00DFC0   381 _RADIO_channel	=	0xdfc0
+                           00DFC1   382 _RADIO_unk_C1	=	0xdfc1
+                           00DFC2   383 _RADIO_calibration_C2	=	0xdfc2
+                           00DFC3   384 _RADIO_calibration_C3	=	0xdfc3
+                           00DFC4   385 _RADIO_calibration_C4	=	0xdfc4
+                           00DFC5   386 _RADIO_calibration_C5	=	0xdfc5
+                           00DFC6   387 _RADIO_calibration_C6	=	0xdfc6
+                           00DFC7   388 _RADIO_calibration_C7	=	0xdfc7
+                           00DFC8   389 _RADIO_unk_C8	=	0xdfc8
+                           00DFC9   390 _RADIO_txPower	=	0xdfc9
+                           00DFCA   391 _RADIO_unk_CA	=	0xdfca
+                           00DFCB   392 _RADIO_perChannelSetting2	=	0xdfcb
+                           00DFCD   393 _RADIO_unk_CD	=	0xdfcd
+                           00DFCE   394 _RADIO_unk_CE	=	0xdfce
+                           00DFCF   395 _RADIO_calibration_CF	=	0xdfcf
+                           00DFD0   396 _RADIO_calibration_D0	=	0xdfd0
+                           00DFD1   397 _RADIO_calibration_D1	=	0xdfd1
+                           00DFD2   398 _RADIO_calibration_D2	=	0xdfd2
+                           00DFD3   399 _RADIO_calibration_D3	=	0xdfd3
+                           00DFD4   400 _RADIO_calibration_D4	=	0xdfd4
+                           00DFD5   401 _RADIO_calibration_D5	=	0xdfd5
+                           00DFD7   402 _RADIO_unk_D7	=	0xdfd7
+                           00DFD8   403 _RADIO_unk_D8	=	0xdfd8
+                           00DFD9   404 _RADIO_SleepTimerHi	=	0xdfd9
+                           00DFDA   405 _RADIO_SleepTimerMid	=	0xdfda
+                           00DFDB   406 _RADIO_SleepTimerLo	=	0xdfdb
+                           00DFE2   407 _RADIO_unk_E2	=	0xdfe2
+                           00DFF0   408 _RADIO_unk_F0	=	0xdff0
+                           00DFF3   409 _RADIO_SleepTimerSettings	=	0xdff3
+                           00DFF4   410 _RADIO_RadioPowerCtl	=	0xdff4
+                           00DFFD   411 _RADIO_perChannelSetting1	=	0xdffd
+      000000                        412 _screenPrvTimedWait_maxTicks_65536_9:
+      000000                        413 	.ds 4
+      000004                        414 _screenPrvRegWriteGuts_PARM_2:
+      000004                        415 	.ds 1
+      000005                        416 _screenPrvRegWriteGuts_val_65536_12:
+      000005                        417 	.ds 4
+      000009                        418 _screenDraw_data_65536_14:
+      000009                        419 	.ds 2
+                                    420 ;--------------------------------------------------------
+                                    421 ; absolute external ram data
+                                    422 ;--------------------------------------------------------
+                                    423 	.area XABS    (ABS,XDATA)
+                                    424 ;--------------------------------------------------------
+                                    425 ; external initialized ram data
+                                    426 ;--------------------------------------------------------
+                                    427 	.area XISEG   (XDATA)
+      000000                        428 _screen_start_time::
+      000000                        429 	.ds 4
+                                    430 	.area HOME    (CODE)
+                                    431 	.area GSINIT0 (CODE)
+                                    432 	.area GSINIT1 (CODE)
+                                    433 	.area GSINIT2 (CODE)
+                                    434 	.area GSINIT3 (CODE)
+                                    435 	.area GSINIT4 (CODE)
+                                    436 	.area GSINIT5 (CODE)
+                                    437 	.area GSINIT  (CODE)
+                                    438 	.area GSFINAL (CODE)
+                                    439 	.area CSEG    (CODE)
+                                    440 ;--------------------------------------------------------
+                                    441 ; global & static initialisations
+                                    442 ;--------------------------------------------------------
+                                    443 	.area HOME    (CODE)
+                                    444 	.area GSINIT  (CODE)
+                                    445 	.area GSFINAL (CODE)
+                                    446 	.area GSINIT  (CODE)
+                                    447 ;	screenSegmented.c:7: __bit display_is_drawing = 0;
+                                    448 ;	assignBit
+      000000 C2*00            [12]  449 	clr	_display_is_drawing
+                                    450 ;--------------------------------------------------------
+                                    451 ; Home
+                                    452 ;--------------------------------------------------------
+                                    453 	.area HOME    (CODE)
+                                    454 	.area HOME    (CODE)
+                                    455 ;--------------------------------------------------------
+                                    456 ; code
+                                    457 ;--------------------------------------------------------
+                                    458 	.area CSEG    (CODE)
+                                    459 ;------------------------------------------------------------
+                                    460 ;Allocation info for local variables in function 'screenPrvTimedWait'
+                                    461 ;------------------------------------------------------------
+                                    462 ;sloc0                     Allocated with name '_screenPrvTimedWait_sloc0_1_0'
+                                    463 ;maxTicks                  Allocated with name '_screenPrvTimedWait_maxTicks_65536_9'
+                                    464 ;startTicks                Allocated with name '_screenPrvTimedWait_startTicks_65536_10'
+                                    465 ;------------------------------------------------------------
+                                    466 ;	screenSegmented.c:11: static __bit screenPrvTimedWait(uint32_t maxTicks)
+                                    467 ;	-----------------------------------------
+                                    468 ;	 function screenPrvTimedWait
+                                    469 ;	-----------------------------------------
+      000000                        470 _screenPrvTimedWait:
+                           000007   471 	ar7 = 0x07
+                           000006   472 	ar6 = 0x06
+                           000005   473 	ar5 = 0x05
+                           000004   474 	ar4 = 0x04
+                           000003   475 	ar3 = 0x03
+                           000002   476 	ar2 = 0x02
+                           000001   477 	ar1 = 0x01
+                           000000   478 	ar0 = 0x00
+      000000 C0 07            [24]  479 	push	ar7
+      000002 C0 06            [24]  480 	push	ar6
+      000004 C0 05            [24]  481 	push	ar5
+      000006 C0 04            [24]  482 	push	ar4
+      000008 C0 03            [24]  483 	push	ar3
+      00000A C0 02            [24]  484 	push	ar2
+      00000C C0 01            [24]  485 	push	ar1
+      00000E C0 00            [24]  486 	push	ar0
+      000010 AF 82            [24]  487 	mov	r7,dpl
+      000012 AE 83            [24]  488 	mov	r6,dph
+      000014 AD F0            [24]  489 	mov	r5,b
+      000016 FC               [12]  490 	mov	r4,a
+      000017 90r00r00         [24]  491 	mov	dptr,#_screenPrvTimedWait_maxTicks_65536_9
+      00001A EF               [12]  492 	mov	a,r7
+      00001B F0               [24]  493 	movx	@dptr,a
+      00001C EE               [12]  494 	mov	a,r6
+      00001D A3               [24]  495 	inc	dptr
+      00001E F0               [24]  496 	movx	@dptr,a
+      00001F ED               [12]  497 	mov	a,r5
+      000020 A3               [24]  498 	inc	dptr
+      000021 F0               [24]  499 	movx	@dptr,a
+      000022 EC               [12]  500 	mov	a,r4
+      000023 A3               [24]  501 	inc	dptr
+      000024 F0               [24]  502 	movx	@dptr,a
+                                    503 ;	screenSegmented.c:13: uint32_t startTicks = timerGet();
+      000025 12r00r00         [24]  504 	lcall	_timerGet
+      000028 AC 82            [24]  505 	mov	r4,dpl
+      00002A AD 83            [24]  506 	mov	r5,dph
+      00002C AE F0            [24]  507 	mov	r6,b
+      00002E FF               [12]  508 	mov	r7,a
+                                    509 ;	screenSegmented.c:15: while (timerGet() - startTicks < maxTicks)
+      00002F 90r00r00         [24]  510 	mov	dptr,#_screenPrvTimedWait_maxTicks_65536_9
+      000032 E0               [24]  511 	movx	a,@dptr
+      000033 F5*00            [12]  512 	mov	_screenPrvTimedWait_sloc0_1_0,a
+      000035 A3               [24]  513 	inc	dptr
+      000036 E0               [24]  514 	movx	a,@dptr
+      000037 F5*01            [12]  515 	mov	(_screenPrvTimedWait_sloc0_1_0 + 1),a
+      000039 A3               [24]  516 	inc	dptr
+      00003A E0               [24]  517 	movx	a,@dptr
+      00003B F5*02            [12]  518 	mov	(_screenPrvTimedWait_sloc0_1_0 + 2),a
+      00003D A3               [24]  519 	inc	dptr
+      00003E E0               [24]  520 	movx	a,@dptr
+      00003F F5*03            [12]  521 	mov	(_screenPrvTimedWait_sloc0_1_0 + 3),a
+      000041                        522 00103$:
+      000041 12r00r00         [24]  523 	lcall	_timerGet
+      000044 A8 82            [24]  524 	mov	r0,dpl
+      000046 A9 83            [24]  525 	mov	r1,dph
+      000048 AA F0            [24]  526 	mov	r2,b
+      00004A FB               [12]  527 	mov	r3,a
+      00004B E8               [12]  528 	mov	a,r0
+      00004C C3               [12]  529 	clr	c
+      00004D 9C               [12]  530 	subb	a,r4
+      00004E F8               [12]  531 	mov	r0,a
+      00004F E9               [12]  532 	mov	a,r1
+      000050 9D               [12]  533 	subb	a,r5
+      000051 F9               [12]  534 	mov	r1,a
+      000052 EA               [12]  535 	mov	a,r2
+      000053 9E               [12]  536 	subb	a,r6
+      000054 FA               [12]  537 	mov	r2,a
+      000055 EB               [12]  538 	mov	a,r3
+      000056 9F               [12]  539 	subb	a,r7
+      000057 FB               [12]  540 	mov	r3,a
+      000058 C3               [12]  541 	clr	c
+      000059 E8               [12]  542 	mov	a,r0
+      00005A 95*00            [12]  543 	subb	a,_screenPrvTimedWait_sloc0_1_0
+      00005C E9               [12]  544 	mov	a,r1
+      00005D 95*01            [12]  545 	subb	a,(_screenPrvTimedWait_sloc0_1_0 + 1)
+      00005F EA               [12]  546 	mov	a,r2
+      000060 95*02            [12]  547 	subb	a,(_screenPrvTimedWait_sloc0_1_0 + 2)
+      000062 EB               [12]  548 	mov	a,r3
+      000063 95*03            [12]  549 	subb	a,(_screenPrvTimedWait_sloc0_1_0 + 3)
+      000065 50 06            [24]  550 	jnc	00105$
+                                    551 ;	screenSegmented.c:17: if (!P2_0)
+      000067 20 A0 D7         [24]  552 	jb	_P2_0,00103$
+                                    553 ;	screenSegmented.c:18: return true;
+      00006A D3               [12]  554 	setb	c
+      00006B 80 01            [24]  555 	sjmp	00106$
+      00006D                        556 00105$:
+                                    557 ;	screenSegmented.c:21: return false;
+      00006D C3               [12]  558 	clr	c
+      00006E                        559 00106$:
+                                    560 ;	screenSegmented.c:22: }
+      00006E D0 00            [24]  561 	pop	ar0
+      000070 D0 01            [24]  562 	pop	ar1
+      000072 D0 02            [24]  563 	pop	ar2
+      000074 D0 03            [24]  564 	pop	ar3
+      000076 D0 04            [24]  565 	pop	ar4
+      000078 D0 05            [24]  566 	pop	ar5
+      00007A D0 06            [24]  567 	pop	ar6
+      00007C D0 07            [24]  568 	pop	ar7
+      00007E 22               [24]  569 	ret
+                                    570 ;------------------------------------------------------------
+                                    571 ;Allocation info for local variables in function 'screenPrvRegWriteGuts'
+                                    572 ;------------------------------------------------------------
+                                    573 ;reg                       Allocated with name '_screenPrvRegWriteGuts_PARM_2'
+                                    574 ;val                       Allocated with name '_screenPrvRegWriteGuts_val_65536_12'
+                                    575 ;------------------------------------------------------------
+                                    576 ;	screenSegmented.c:25: static __bit screenPrvRegWriteGuts(uint32_t val, uint8_t reg) // order because sdcc sucks
+                                    577 ;	-----------------------------------------
+                                    578 ;	 function screenPrvRegWriteGuts
+                                    579 ;	-----------------------------------------
+      00007F                        580 _screenPrvRegWriteGuts:
+      00007F C0 07            [24]  581 	push	ar7
+      000081 C0 06            [24]  582 	push	ar6
+      000083 C0 05            [24]  583 	push	ar5
+      000085 C0 04            [24]  584 	push	ar4
+      000087 C0 03            [24]  585 	push	ar3
+      000089 AF 82            [24]  586 	mov	r7,dpl
+      00008B AE 83            [24]  587 	mov	r6,dph
+      00008D AD F0            [24]  588 	mov	r5,b
+      00008F FC               [12]  589 	mov	r4,a
+      000090 90r00r05         [24]  590 	mov	dptr,#_screenPrvRegWriteGuts_val_65536_12
+      000093 EF               [12]  591 	mov	a,r7
+      000094 F0               [24]  592 	movx	@dptr,a
+      000095 EE               [12]  593 	mov	a,r6
+      000096 A3               [24]  594 	inc	dptr
+      000097 F0               [24]  595 	movx	@dptr,a
+      000098 ED               [12]  596 	mov	a,r5
+      000099 A3               [24]  597 	inc	dptr
+      00009A F0               [24]  598 	movx	@dptr,a
+      00009B EC               [12]  599 	mov	a,r4
+      00009C A3               [24]  600 	inc	dptr
+      00009D F0               [24]  601 	movx	@dptr,a
+                                    602 ;	screenSegmented.c:27: if (!screenPrvTimedWait(TIMER_TICKS_PER_SECOND / 1000))
+      00009E 90 05 35         [24]  603 	mov	dptr,#0x0535
+      0000A1 E4               [12]  604 	clr	a
+      0000A2 F5 F0            [12]  605 	mov	b,a
+      0000A4 12r00r00         [24]  606 	lcall	_screenPrvTimedWait
+                                    607 ;	screenSegmented.c:28: return false;
+      0000A7 40 02            [24]  608 	jc	00102$
+      0000A9 80 33            [24]  609 	sjmp	00103$
+      0000AB                        610 00102$:
+                                    611 ;	screenSegmented.c:30: P2_1 = 0;
+                                    612 ;	assignBit
+      0000AB C2 A1            [12]  613 	clr	_P2_1
+                                    614 ;	screenSegmented.c:31: spiByte((uint8_t)0x80 + (uint8_t)(reg << 1));
+      0000AD 90r00r04         [24]  615 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0000B0 E0               [24]  616 	movx	a,@dptr
+      0000B1 25 E0            [12]  617 	add	a,acc
+      0000B3 24 80            [12]  618 	add	a,#0x80
+      0000B5 F5 82            [12]  619 	mov	dpl,a
+      0000B7 12r00r00         [24]  620 	lcall	_spiByte
+                                    621 ;	screenSegmented.c:32: spiByte(val >> 16);
+      0000BA 90r00r05         [24]  622 	mov	dptr,#_screenPrvRegWriteGuts_val_65536_12
+      0000BD E0               [24]  623 	movx	a,@dptr
+      0000BE FC               [12]  624 	mov	r4,a
+      0000BF A3               [24]  625 	inc	dptr
+      0000C0 E0               [24]  626 	movx	a,@dptr
+      0000C1 FD               [12]  627 	mov	r5,a
+      0000C2 A3               [24]  628 	inc	dptr
+      0000C3 E0               [24]  629 	movx	a,@dptr
+      0000C4 FE               [12]  630 	mov	r6,a
+      0000C5 A3               [24]  631 	inc	dptr
+      0000C6 E0               [24]  632 	movx	a,@dptr
+      0000C7 FF               [12]  633 	mov	r7,a
+      0000C8 8E 03            [24]  634 	mov	ar3,r6
+      0000CA 8B 82            [24]  635 	mov	dpl,r3
+      0000CC 12r00r00         [24]  636 	lcall	_spiByte
+                                    637 ;	screenSegmented.c:33: spiByte(val >> 8);
+      0000CF 8D 03            [24]  638 	mov	ar3,r5
+      0000D1 8B 82            [24]  639 	mov	dpl,r3
+      0000D3 12r00r00         [24]  640 	lcall	_spiByte
+                                    641 ;	screenSegmented.c:34: spiByte(val);
+      0000D6 8C 82            [24]  642 	mov	dpl,r4
+      0000D8 12r00r00         [24]  643 	lcall	_spiByte
+                                    644 ;	screenSegmented.c:35: P2_1 = 1;
+                                    645 ;	assignBit
+      0000DB D2 A1            [12]  646 	setb	_P2_1
+                                    647 ;	screenSegmented.c:37: return true;
+      0000DD D3               [12]  648 	setb	c
+      0000DE                        649 00103$:
+                                    650 ;	screenSegmented.c:38: }
+      0000DE D0 03            [24]  651 	pop	ar3
+      0000E0 D0 04            [24]  652 	pop	ar4
+      0000E2 D0 05            [24]  653 	pop	ar5
+      0000E4 D0 06            [24]  654 	pop	ar6
+      0000E6 D0 07            [24]  655 	pop	ar7
+      0000E8 22               [24]  656 	ret
+                                    657 ;------------------------------------------------------------
+                                    658 ;Allocation info for local variables in function 'screenDraw'
+                                    659 ;------------------------------------------------------------
+                                    660 ;data                      Allocated with name '_screenDraw_data_65536_14'
+                                    661 ;------------------------------------------------------------
+                                    662 ;	screenSegmented.c:42: __bit screenDraw(const uint8_t __xdata *data, __bit inverted, __bit custom_lut)
+                                    663 ;	-----------------------------------------
+                                    664 ;	 function screenDraw
+                                    665 ;	-----------------------------------------
+      0000E9                        666 _screenDraw:
+      0000E9 AF 83            [24]  667 	mov	r7,dph
+      0000EB E5 82            [12]  668 	mov	a,dpl
+      0000ED 90r00r09         [24]  669 	mov	dptr,#_screenDraw_data_65536_14
+      0000F0 F0               [24]  670 	movx	@dptr,a
+      0000F1 EF               [12]  671 	mov	a,r7
+      0000F2 A3               [24]  672 	inc	dptr
+      0000F3 F0               [24]  673 	movx	@dptr,a
+                                    674 ;	screenSegmented.c:44: display_is_drawing = 0;
+                                    675 ;	assignBit
+      0000F4 C2*00            [12]  676 	clr	_display_is_drawing
+                                    677 ;	screenSegmented.c:45: P2_1 = 1;
+                                    678 ;	assignBit
+      0000F6 D2 A1            [12]  679 	setb	_P2_1
+                                    680 ;	screenSegmented.c:46: P2_2 = 1; // power it up
+                                    681 ;	assignBit
+      0000F8 D2 A2            [12]  682 	setb	_P2_2
+                                    683 ;	screenSegmented.c:47: timerDelay(TIMER_TICKS_PER_SECOND / 1000);
+      0000FA 90 05 35         [24]  684 	mov	dptr,#0x0535
+      0000FD E4               [12]  685 	clr	a
+      0000FE F5 F0            [12]  686 	mov	b,a
+      000100 12r00r00         [24]  687 	lcall	_timerDelay
+                                    688 ;	screenSegmented.c:48: P1_7 = 0; // assert reset
+                                    689 ;	assignBit
+      000103 C2 97            [12]  690 	clr	_P1_7
+                                    691 ;	screenSegmented.c:49: timerDelay(TIMER_TICKS_PER_SECOND / 100);
+      000105 90 34 15         [24]  692 	mov	dptr,#0x3415
+      000108 E4               [12]  693 	clr	a
+      000109 F5 F0            [12]  694 	mov	b,a
+      00010B 12r00r00         [24]  695 	lcall	_timerDelay
+                                    696 ;	screenSegmented.c:50: P1_7 = 1; // release reset
+                                    697 ;	assignBit
+      00010E D2 97            [12]  698 	setb	_P1_7
+                                    699 ;	screenSegmented.c:51: timerDelay(TIMER_TICKS_PER_SECOND / 1000);
+      000110 90 05 35         [24]  700 	mov	dptr,#0x0535
+      000113 E4               [12]  701 	clr	a
+      000114 F5 F0            [12]  702 	mov	b,a
+      000116 12r00r00         [24]  703 	lcall	_timerDelay
+                                    704 ;	screenSegmented.c:53: P1FUNC |= 0x40;
+      000119 43 AE 40         [24]  705 	orl	_P1FUNC,#0x40
+                                    706 ;	screenSegmented.c:55: if (!screenPrvTimedWait(TIMER_TICKS_PER_SECOND))
+      00011C 90 58 55         [24]  707 	mov	dptr,#0x5855
+      00011F 75 F0 14         [24]  708 	mov	b,#0x14
+      000122 E4               [12]  709 	clr	a
+      000123 12r00r00         [24]  710 	lcall	_screenPrvTimedWait
+                                    711 ;	screenSegmented.c:57: return false;
+      000126 40 01            [24]  712 	jc	00102$
+      000128 22               [24]  713 	ret
+      000129                        714 00102$:
+                                    715 ;	screenSegmented.c:61: if (!screenPrvRegWrite(0x03, 0x3a0000))
+      000129 90r00r04         [24]  716 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00012C 74 03            [12]  717 	mov	a,#0x03
+      00012E F0               [24]  718 	movx	@dptr,a
+      00012F 90 00 00         [24]  719 	mov	dptr,#0x0000
+      000132 75 F0 3A         [24]  720 	mov	b,#0x3a
+      000135 E4               [12]  721 	clr	a
+      000136 12r00r7F         [24]  722 	lcall	_screenPrvRegWriteGuts
+                                    723 ;	screenSegmented.c:62: return false;
+      000139 40 01            [24]  724 	jc	00104$
+      00013B 22               [24]  725 	ret
+      00013C                        726 00104$:
+                                    727 ;	screenSegmented.c:64: if (!screenPrvRegWrite(0x01, 0x070000))
+      00013C 90r00r04         [24]  728 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00013F 74 01            [12]  729 	mov	a,#0x01
+      000141 F0               [24]  730 	movx	@dptr,a
+      000142 90 00 00         [24]  731 	mov	dptr,#0x0000
+      000145 75 F0 07         [24]  732 	mov	b,#0x07
+      000148 E4               [12]  733 	clr	a
+      000149 12r00r7F         [24]  734 	lcall	_screenPrvRegWriteGuts
+                                    735 ;	screenSegmented.c:65: return false;
+      00014C 40 01            [24]  736 	jc	00106$
+      00014E 22               [24]  737 	ret
+      00014F                        738 00106$:
+                                    739 ;	screenSegmented.c:66: if (!screenPrvRegWrite(0x03, 0x400000))
+      00014F 90r00r04         [24]  740 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000152 74 03            [12]  741 	mov	a,#0x03
+      000154 F0               [24]  742 	movx	@dptr,a
+      000155 90 00 00         [24]  743 	mov	dptr,#0x0000
+      000158 75 F0 40         [24]  744 	mov	b,#0x40
+      00015B E4               [12]  745 	clr	a
+      00015C 12r00r7F         [24]  746 	lcall	_screenPrvRegWriteGuts
+                                    747 ;	screenSegmented.c:67: return false;
+      00015F 40 01            [24]  748 	jc	00108$
+      000161 22               [24]  749 	ret
+      000162                        750 00108$:
+                                    751 ;	screenSegmented.c:68: if (!screenPrvRegWrite(0x04, 0xfc0000))
+      000162 90r00r04         [24]  752 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000165 74 04            [12]  753 	mov	a,#0x04
+      000167 F0               [24]  754 	movx	@dptr,a
+      000168 90 00 00         [24]  755 	mov	dptr,#0x0000
+      00016B 75 F0 FC         [24]  756 	mov	b,#0xfc
+      00016E E4               [12]  757 	clr	a
+      00016F 12r00r7F         [24]  758 	lcall	_screenPrvRegWriteGuts
+                                    759 ;	screenSegmented.c:69: return false;
+      000172 40 01            [24]  760 	jc	00110$
+      000174 22               [24]  761 	ret
+      000175                        762 00110$:
+                                    763 ;	screenSegmented.c:72: if (!screenPrvRegWrite(0x0d, *(uint32_t __xdata *)(data + 0)))
+      000175 90r00r09         [24]  764 	mov	dptr,#_screenDraw_data_65536_14
+      000178 E0               [24]  765 	movx	a,@dptr
+      000179 FE               [12]  766 	mov	r6,a
+      00017A A3               [24]  767 	inc	dptr
+      00017B E0               [24]  768 	movx	a,@dptr
+      00017C FF               [12]  769 	mov	r7,a
+      00017D 8E 82            [24]  770 	mov	dpl,r6
+      00017F 8F 83            [24]  771 	mov	dph,r7
+      000181 E0               [24]  772 	movx	a,@dptr
+      000182 FA               [12]  773 	mov	r2,a
+      000183 A3               [24]  774 	inc	dptr
+      000184 E0               [24]  775 	movx	a,@dptr
+      000185 FB               [12]  776 	mov	r3,a
+      000186 A3               [24]  777 	inc	dptr
+      000187 E0               [24]  778 	movx	a,@dptr
+      000188 FC               [12]  779 	mov	r4,a
+      000189 A3               [24]  780 	inc	dptr
+      00018A E0               [24]  781 	movx	a,@dptr
+      00018B FD               [12]  782 	mov	r5,a
+      00018C 90r00r04         [24]  783 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00018F 74 0D            [12]  784 	mov	a,#0x0d
+      000191 F0               [24]  785 	movx	@dptr,a
+      000192 8A 82            [24]  786 	mov	dpl,r2
+      000194 8B 83            [24]  787 	mov	dph,r3
+      000196 8C F0            [24]  788 	mov	b,r4
+      000198 ED               [12]  789 	mov	a,r5
+      000199 12r00r7F         [24]  790 	lcall	_screenPrvRegWriteGuts
+                                    791 ;	screenSegmented.c:73: return false;
+      00019C 40 01            [24]  792 	jc	00112$
+      00019E 22               [24]  793 	ret
+      00019F                        794 00112$:
+                                    795 ;	screenSegmented.c:74: if (!screenPrvRegWrite(0x0e, *(uint32_t __xdata *)(data + 3)))
+      00019F 74 03            [12]  796 	mov	a,#0x03
+      0001A1 2E               [12]  797 	add	a,r6
+      0001A2 FC               [12]  798 	mov	r4,a
+      0001A3 E4               [12]  799 	clr	a
+      0001A4 3F               [12]  800 	addc	a,r7
+      0001A5 FD               [12]  801 	mov	r5,a
+      0001A6 8C 82            [24]  802 	mov	dpl,r4
+      0001A8 8D 83            [24]  803 	mov	dph,r5
+      0001AA E0               [24]  804 	movx	a,@dptr
+      0001AB FA               [12]  805 	mov	r2,a
+      0001AC A3               [24]  806 	inc	dptr
+      0001AD E0               [24]  807 	movx	a,@dptr
+      0001AE FB               [12]  808 	mov	r3,a
+      0001AF A3               [24]  809 	inc	dptr
+      0001B0 E0               [24]  810 	movx	a,@dptr
+      0001B1 FC               [12]  811 	mov	r4,a
+      0001B2 A3               [24]  812 	inc	dptr
+      0001B3 E0               [24]  813 	movx	a,@dptr
+      0001B4 FD               [12]  814 	mov	r5,a
+      0001B5 90r00r04         [24]  815 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0001B8 74 0E            [12]  816 	mov	a,#0x0e
+      0001BA F0               [24]  817 	movx	@dptr,a
+      0001BB 8A 82            [24]  818 	mov	dpl,r2
+      0001BD 8B 83            [24]  819 	mov	dph,r3
+      0001BF 8C F0            [24]  820 	mov	b,r4
+      0001C1 ED               [12]  821 	mov	a,r5
+      0001C2 12r00r7F         [24]  822 	lcall	_screenPrvRegWriteGuts
+                                    823 ;	screenSegmented.c:75: return false;
+      0001C5 40 01            [24]  824 	jc	00114$
+      0001C7 22               [24]  825 	ret
+      0001C8                        826 00114$:
+                                    827 ;	screenSegmented.c:76: if (!screenPrvRegWrite(0x0f, *(uint32_t __xdata *)(data + 6)))
+      0001C8 74 06            [12]  828 	mov	a,#0x06
+      0001CA 2E               [12]  829 	add	a,r6
+      0001CB FC               [12]  830 	mov	r4,a
+      0001CC E4               [12]  831 	clr	a
+      0001CD 3F               [12]  832 	addc	a,r7
+      0001CE FD               [12]  833 	mov	r5,a
+      0001CF 8C 82            [24]  834 	mov	dpl,r4
+      0001D1 8D 83            [24]  835 	mov	dph,r5
+      0001D3 E0               [24]  836 	movx	a,@dptr
+      0001D4 FA               [12]  837 	mov	r2,a
+      0001D5 A3               [24]  838 	inc	dptr
+      0001D6 E0               [24]  839 	movx	a,@dptr
+      0001D7 FB               [12]  840 	mov	r3,a
+      0001D8 A3               [24]  841 	inc	dptr
+      0001D9 E0               [24]  842 	movx	a,@dptr
+      0001DA FC               [12]  843 	mov	r4,a
+      0001DB A3               [24]  844 	inc	dptr
+      0001DC E0               [24]  845 	movx	a,@dptr
+      0001DD FD               [12]  846 	mov	r5,a
+      0001DE 90r00r04         [24]  847 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0001E1 74 0F            [12]  848 	mov	a,#0x0f
+      0001E3 F0               [24]  849 	movx	@dptr,a
+      0001E4 8A 82            [24]  850 	mov	dpl,r2
+      0001E6 8B 83            [24]  851 	mov	dph,r3
+      0001E8 8C F0            [24]  852 	mov	b,r4
+      0001EA ED               [12]  853 	mov	a,r5
+      0001EB 12r00r7F         [24]  854 	lcall	_screenPrvRegWriteGuts
+                                    855 ;	screenSegmented.c:77: return false;
+      0001EE 40 01            [24]  856 	jc	00116$
+      0001F0 22               [24]  857 	ret
+      0001F1                        858 00116$:
+                                    859 ;	screenSegmented.c:78: if (!screenPrvRegWrite(0x10, *(uint32_t __xdata *)(data + 9)))
+      0001F1 74 09            [12]  860 	mov	a,#0x09
+      0001F3 2E               [12]  861 	add	a,r6
+      0001F4 FC               [12]  862 	mov	r4,a
+      0001F5 E4               [12]  863 	clr	a
+      0001F6 3F               [12]  864 	addc	a,r7
+      0001F7 FD               [12]  865 	mov	r5,a
+      0001F8 8C 82            [24]  866 	mov	dpl,r4
+      0001FA 8D 83            [24]  867 	mov	dph,r5
+      0001FC E0               [24]  868 	movx	a,@dptr
+      0001FD FA               [12]  869 	mov	r2,a
+      0001FE A3               [24]  870 	inc	dptr
+      0001FF E0               [24]  871 	movx	a,@dptr
+      000200 FB               [12]  872 	mov	r3,a
+      000201 A3               [24]  873 	inc	dptr
+      000202 E0               [24]  874 	movx	a,@dptr
+      000203 FC               [12]  875 	mov	r4,a
+      000204 A3               [24]  876 	inc	dptr
+      000205 E0               [24]  877 	movx	a,@dptr
+      000206 FD               [12]  878 	mov	r5,a
+      000207 90r00r04         [24]  879 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00020A 74 10            [12]  880 	mov	a,#0x10
+      00020C F0               [24]  881 	movx	@dptr,a
+      00020D 8A 82            [24]  882 	mov	dpl,r2
+      00020F 8B 83            [24]  883 	mov	dph,r3
+      000211 8C F0            [24]  884 	mov	b,r4
+      000213 ED               [12]  885 	mov	a,r5
+      000214 12r00r7F         [24]  886 	lcall	_screenPrvRegWriteGuts
+                                    887 ;	screenSegmented.c:79: return false;
+      000217 40 01            [24]  888 	jc	00118$
+      000219 22               [24]  889 	ret
+      00021A                        890 00118$:
+                                    891 ;	screenSegmented.c:80: if (custom_lut)
+      00021A 20*02 03         [24]  892 	jb	_screenDraw_PARM_3,00269$
+      00021D 02r03r3A         [24]  893 	ljmp	00144$
+      000220                        894 00269$:
+                                    895 ;	screenSegmented.c:83: if (!screenPrvRegWrite(0x14, *(uint32_t __xdata *)(data + 12)))
+      000220 74 0C            [12]  896 	mov	a,#0x0c
+      000222 2E               [12]  897 	add	a,r6
+      000223 FC               [12]  898 	mov	r4,a
+      000224 E4               [12]  899 	clr	a
+      000225 3F               [12]  900 	addc	a,r7
+      000226 FD               [12]  901 	mov	r5,a
+      000227 8C 82            [24]  902 	mov	dpl,r4
+      000229 8D 83            [24]  903 	mov	dph,r5
+      00022B E0               [24]  904 	movx	a,@dptr
+      00022C FA               [12]  905 	mov	r2,a
+      00022D A3               [24]  906 	inc	dptr
+      00022E E0               [24]  907 	movx	a,@dptr
+      00022F FB               [12]  908 	mov	r3,a
+      000230 A3               [24]  909 	inc	dptr
+      000231 E0               [24]  910 	movx	a,@dptr
+      000232 FC               [12]  911 	mov	r4,a
+      000233 A3               [24]  912 	inc	dptr
+      000234 E0               [24]  913 	movx	a,@dptr
+      000235 FD               [12]  914 	mov	r5,a
+      000236 90r00r04         [24]  915 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000239 74 14            [12]  916 	mov	a,#0x14
+      00023B F0               [24]  917 	movx	@dptr,a
+      00023C 8A 82            [24]  918 	mov	dpl,r2
+      00023E 8B 83            [24]  919 	mov	dph,r3
+      000240 8C F0            [24]  920 	mov	b,r4
+      000242 ED               [12]  921 	mov	a,r5
+      000243 12r00r7F         [24]  922 	lcall	_screenPrvRegWriteGuts
+                                    923 ;	screenSegmented.c:84: return false;
+      000246 40 01            [24]  924 	jc	00120$
+      000248 22               [24]  925 	ret
+      000249                        926 00120$:
+                                    927 ;	screenSegmented.c:85: if (!screenPrvRegWrite(0x15, *(uint32_t __xdata *)(data + 15)))
+      000249 74 0F            [12]  928 	mov	a,#0x0f
+      00024B 2E               [12]  929 	add	a,r6
+      00024C FC               [12]  930 	mov	r4,a
+      00024D E4               [12]  931 	clr	a
+      00024E 3F               [12]  932 	addc	a,r7
+      00024F FD               [12]  933 	mov	r5,a
+      000250 8C 82            [24]  934 	mov	dpl,r4
+      000252 8D 83            [24]  935 	mov	dph,r5
+      000254 E0               [24]  936 	movx	a,@dptr
+      000255 FA               [12]  937 	mov	r2,a
+      000256 A3               [24]  938 	inc	dptr
+      000257 E0               [24]  939 	movx	a,@dptr
+      000258 FB               [12]  940 	mov	r3,a
+      000259 A3               [24]  941 	inc	dptr
+      00025A E0               [24]  942 	movx	a,@dptr
+      00025B FC               [12]  943 	mov	r4,a
+      00025C A3               [24]  944 	inc	dptr
+      00025D E0               [24]  945 	movx	a,@dptr
+      00025E FD               [12]  946 	mov	r5,a
+      00025F 90r00r04         [24]  947 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000262 74 15            [12]  948 	mov	a,#0x15
+      000264 F0               [24]  949 	movx	@dptr,a
+      000265 8A 82            [24]  950 	mov	dpl,r2
+      000267 8B 83            [24]  951 	mov	dph,r3
+      000269 8C F0            [24]  952 	mov	b,r4
+      00026B ED               [12]  953 	mov	a,r5
+      00026C 12r00r7F         [24]  954 	lcall	_screenPrvRegWriteGuts
+                                    955 ;	screenSegmented.c:86: return false;
+      00026F 40 01            [24]  956 	jc	00122$
+      000271 22               [24]  957 	ret
+      000272                        958 00122$:
+                                    959 ;	screenSegmented.c:87: if (!screenPrvRegWrite(0x16, *(uint32_t __xdata *)(data + 18)))
+      000272 74 12            [12]  960 	mov	a,#0x12
+      000274 2E               [12]  961 	add	a,r6
+      000275 FC               [12]  962 	mov	r4,a
+      000276 E4               [12]  963 	clr	a
+      000277 3F               [12]  964 	addc	a,r7
+      000278 FD               [12]  965 	mov	r5,a
+      000279 8C 82            [24]  966 	mov	dpl,r4
+      00027B 8D 83            [24]  967 	mov	dph,r5
+      00027D E0               [24]  968 	movx	a,@dptr
+      00027E FA               [12]  969 	mov	r2,a
+      00027F A3               [24]  970 	inc	dptr
+      000280 E0               [24]  971 	movx	a,@dptr
+      000281 FB               [12]  972 	mov	r3,a
+      000282 A3               [24]  973 	inc	dptr
+      000283 E0               [24]  974 	movx	a,@dptr
+      000284 FC               [12]  975 	mov	r4,a
+      000285 A3               [24]  976 	inc	dptr
+      000286 E0               [24]  977 	movx	a,@dptr
+      000287 FD               [12]  978 	mov	r5,a
+      000288 90r00r04         [24]  979 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00028B 74 16            [12]  980 	mov	a,#0x16
+      00028D F0               [24]  981 	movx	@dptr,a
+      00028E 8A 82            [24]  982 	mov	dpl,r2
+      000290 8B 83            [24]  983 	mov	dph,r3
+      000292 8C F0            [24]  984 	mov	b,r4
+      000294 ED               [12]  985 	mov	a,r5
+      000295 12r00r7F         [24]  986 	lcall	_screenPrvRegWriteGuts
+                                    987 ;	screenSegmented.c:88: return false;
+      000298 40 01            [24]  988 	jc	00124$
+      00029A 22               [24]  989 	ret
+      00029B                        990 00124$:
+                                    991 ;	screenSegmented.c:90: if (!screenPrvRegWrite(0x19, *(uint32_t __xdata *)(data + 21)))
+      00029B 74 15            [12]  992 	mov	a,#0x15
+      00029D 2E               [12]  993 	add	a,r6
+      00029E FC               [12]  994 	mov	r4,a
+      00029F E4               [12]  995 	clr	a
+      0002A0 3F               [12]  996 	addc	a,r7
+      0002A1 FD               [12]  997 	mov	r5,a
+      0002A2 8C 82            [24]  998 	mov	dpl,r4
+      0002A4 8D 83            [24]  999 	mov	dph,r5
+      0002A6 E0               [24] 1000 	movx	a,@dptr
+      0002A7 FA               [12] 1001 	mov	r2,a
+      0002A8 A3               [24] 1002 	inc	dptr
+      0002A9 E0               [24] 1003 	movx	a,@dptr
+      0002AA FB               [12] 1004 	mov	r3,a
+      0002AB A3               [24] 1005 	inc	dptr
+      0002AC E0               [24] 1006 	movx	a,@dptr
+      0002AD FC               [12] 1007 	mov	r4,a
+      0002AE A3               [24] 1008 	inc	dptr
+      0002AF E0               [24] 1009 	movx	a,@dptr
+      0002B0 FD               [12] 1010 	mov	r5,a
+      0002B1 90r00r04         [24] 1011 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0002B4 74 19            [12] 1012 	mov	a,#0x19
+      0002B6 F0               [24] 1013 	movx	@dptr,a
+      0002B7 8A 82            [24] 1014 	mov	dpl,r2
+      0002B9 8B 83            [24] 1015 	mov	dph,r3
+      0002BB 8C F0            [24] 1016 	mov	b,r4
+      0002BD ED               [12] 1017 	mov	a,r5
+      0002BE 12r00r7F         [24] 1018 	lcall	_screenPrvRegWriteGuts
+                                   1019 ;	screenSegmented.c:91: return false;
+      0002C1 40 01            [24] 1020 	jc	00126$
+      0002C3 22               [24] 1021 	ret
+      0002C4                       1022 00126$:
+                                   1023 ;	screenSegmented.c:92: if (!screenPrvRegWrite(0x1a, *(uint32_t __xdata *)(data + 24)))
+      0002C4 74 18            [12] 1024 	mov	a,#0x18
+      0002C6 2E               [12] 1025 	add	a,r6
+      0002C7 FC               [12] 1026 	mov	r4,a
+      0002C8 E4               [12] 1027 	clr	a
+      0002C9 3F               [12] 1028 	addc	a,r7
+      0002CA FD               [12] 1029 	mov	r5,a
+      0002CB 8C 82            [24] 1030 	mov	dpl,r4
+      0002CD 8D 83            [24] 1031 	mov	dph,r5
+      0002CF E0               [24] 1032 	movx	a,@dptr
+      0002D0 FA               [12] 1033 	mov	r2,a
+      0002D1 A3               [24] 1034 	inc	dptr
+      0002D2 E0               [24] 1035 	movx	a,@dptr
+      0002D3 FB               [12] 1036 	mov	r3,a
+      0002D4 A3               [24] 1037 	inc	dptr
+      0002D5 E0               [24] 1038 	movx	a,@dptr
+      0002D6 FC               [12] 1039 	mov	r4,a
+      0002D7 A3               [24] 1040 	inc	dptr
+      0002D8 E0               [24] 1041 	movx	a,@dptr
+      0002D9 FD               [12] 1042 	mov	r5,a
+      0002DA 90r00r04         [24] 1043 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0002DD 74 1A            [12] 1044 	mov	a,#0x1a
+      0002DF F0               [24] 1045 	movx	@dptr,a
+      0002E0 8A 82            [24] 1046 	mov	dpl,r2
+      0002E2 8B 83            [24] 1047 	mov	dph,r3
+      0002E4 8C F0            [24] 1048 	mov	b,r4
+      0002E6 ED               [12] 1049 	mov	a,r5
+      0002E7 12r00r7F         [24] 1050 	lcall	_screenPrvRegWriteGuts
+                                   1051 ;	screenSegmented.c:93: return false;
+      0002EA 40 01            [24] 1052 	jc	00128$
+      0002EC 22               [24] 1053 	ret
+      0002ED                       1054 00128$:
+                                   1055 ;	screenSegmented.c:96: if (!screenPrvRegWrite(0x00, *(uint32_t __xdata *)(data + 27) | (inverted ? 0x200000 : 0x000000)))
+      0002ED 74 1B            [12] 1056 	mov	a,#0x1b
+      0002EF 2E               [12] 1057 	add	a,r6
+      0002F0 FE               [12] 1058 	mov	r6,a
+      0002F1 E4               [12] 1059 	clr	a
+      0002F2 3F               [12] 1060 	addc	a,r7
+      0002F3 FF               [12] 1061 	mov	r7,a
+      0002F4 8E 82            [24] 1062 	mov	dpl,r6
+      0002F6 8F 83            [24] 1063 	mov	dph,r7
+      0002F8 E0               [24] 1064 	movx	a,@dptr
+      0002F9 FC               [12] 1065 	mov	r4,a
+      0002FA A3               [24] 1066 	inc	dptr
+      0002FB E0               [24] 1067 	movx	a,@dptr
+      0002FC FD               [12] 1068 	mov	r5,a
+      0002FD A3               [24] 1069 	inc	dptr
+      0002FE E0               [24] 1070 	movx	a,@dptr
+      0002FF FE               [12] 1071 	mov	r6,a
+      000300 A3               [24] 1072 	inc	dptr
+      000301 E0               [24] 1073 	movx	a,@dptr
+      000302 FF               [12] 1074 	mov	r7,a
+      000303 30*01 0A         [24] 1075 	jnb	_screenDraw_PARM_2,00148$
+      000306 78 00            [12] 1076 	mov	r0,#0x00
+      000308 79 00            [12] 1077 	mov	r1,#0x00
+      00030A 7A 20            [12] 1078 	mov	r2,#0x20
+      00030C 7B 00            [12] 1079 	mov	r3,#0x00
+      00030E 80 08            [24] 1080 	sjmp	00149$
+      000310                       1081 00148$:
+      000310 78 00            [12] 1082 	mov	r0,#0x00
+      000312 79 00            [12] 1083 	mov	r1,#0x00
+      000314 7A 00            [12] 1084 	mov	r2,#0x00
+      000316 7B 00            [12] 1085 	mov	r3,#0x00
+      000318                       1086 00149$:
+      000318 E8               [12] 1087 	mov	a,r0
+      000319 42 04            [12] 1088 	orl	ar4,a
+      00031B E9               [12] 1089 	mov	a,r1
+      00031C 42 05            [12] 1090 	orl	ar5,a
+      00031E EA               [12] 1091 	mov	a,r2
+      00031F 42 06            [12] 1092 	orl	ar6,a
+      000321 EB               [12] 1093 	mov	a,r3
+      000322 42 07            [12] 1094 	orl	ar7,a
+      000324 90r00r04         [24] 1095 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000327 E4               [12] 1096 	clr	a
+      000328 F0               [24] 1097 	movx	@dptr,a
+      000329 8C 82            [24] 1098 	mov	dpl,r4
+      00032B 8D 83            [24] 1099 	mov	dph,r5
+      00032D 8E F0            [24] 1100 	mov	b,r6
+      00032F EF               [12] 1101 	mov	a,r7
+      000330 12r00r7F         [24] 1102 	lcall	_screenPrvRegWriteGuts
+      000333 50 03            [24] 1103 	jnc	00276$
+      000335 02r03rEA         [24] 1104 	ljmp	00145$
+      000338                       1105 00276$:
+                                   1106 ;	screenSegmented.c:97: return false;
+      000338 C3               [12] 1107 	clr	c
+      000339 22               [24] 1108 	ret
+      00033A                       1109 00144$:
+                                   1110 ;	screenSegmented.c:102: if (!screenPrvRegWrite(0x14, 0x440000))
+      00033A 90r00r04         [24] 1111 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00033D 74 14            [12] 1112 	mov	a,#0x14
+      00033F F0               [24] 1113 	movx	@dptr,a
+      000340 90 00 00         [24] 1114 	mov	dptr,#0x0000
+      000343 75 F0 44         [24] 1115 	mov	b,#0x44
+      000346 E4               [12] 1116 	clr	a
+      000347 12r00r7F         [24] 1117 	lcall	_screenPrvRegWriteGuts
+                                   1118 ;	screenSegmented.c:103: return false;
+      00034A 40 01            [24] 1119 	jc	00132$
+      00034C 22               [24] 1120 	ret
+      00034D                       1121 00132$:
+                                   1122 ;	screenSegmented.c:104: if (!screenPrvRegWrite(0x15, inverted ? 0x680001 : 0x860000))
+      00034D 30*01 0A         [24] 1123 	jnb	_screenDraw_PARM_2,00150$
+      000350 7C 01            [12] 1124 	mov	r4,#0x01
+      000352 7D 00            [12] 1125 	mov	r5,#0x00
+      000354 7E 68            [12] 1126 	mov	r6,#0x68
+      000356 7F 00            [12] 1127 	mov	r7,#0x00
+      000358 80 08            [24] 1128 	sjmp	00151$
+      00035A                       1129 00150$:
+      00035A 7C 00            [12] 1130 	mov	r4,#0x00
+      00035C 7D 00            [12] 1131 	mov	r5,#0x00
+      00035E 7E 86            [12] 1132 	mov	r6,#0x86
+      000360 7F 00            [12] 1133 	mov	r7,#0x00
+      000362                       1134 00151$:
+      000362 90r00r04         [24] 1135 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      000365 74 15            [12] 1136 	mov	a,#0x15
+      000367 F0               [24] 1137 	movx	@dptr,a
+      000368 8C 82            [24] 1138 	mov	dpl,r4
+      00036A 8D 83            [24] 1139 	mov	dph,r5
+      00036C 8E F0            [24] 1140 	mov	b,r6
+      00036E EF               [12] 1141 	mov	a,r7
+      00036F 12r00r7F         [24] 1142 	lcall	_screenPrvRegWriteGuts
+                                   1143 ;	screenSegmented.c:105: return false;
+      000372 40 01            [24] 1144 	jc	00134$
+      000374 22               [24] 1145 	ret
+      000375                       1146 00134$:
+                                   1147 ;	screenSegmented.c:106: if (!screenPrvRegWrite(0x16, inverted ? 0x240000 : 0x040000))
+      000375 30*01 0A         [24] 1148 	jnb	_screenDraw_PARM_2,00152$
+      000378 7C 00            [12] 1149 	mov	r4,#0x00
+      00037A 7D 00            [12] 1150 	mov	r5,#0x00
+      00037C 7E 24            [12] 1151 	mov	r6,#0x24
+      00037E 7F 00            [12] 1152 	mov	r7,#0x00
+      000380 80 08            [24] 1153 	sjmp	00153$
+      000382                       1154 00152$:
+      000382 7C 00            [12] 1155 	mov	r4,#0x00
+      000384 7D 00            [12] 1156 	mov	r5,#0x00
+      000386 7E 04            [12] 1157 	mov	r6,#0x04
+      000388 7F 00            [12] 1158 	mov	r7,#0x00
+      00038A                       1159 00153$:
+      00038A 90r00r04         [24] 1160 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      00038D 74 16            [12] 1161 	mov	a,#0x16
+      00038F F0               [24] 1162 	movx	@dptr,a
+      000390 8C 82            [24] 1163 	mov	dpl,r4
+      000392 8D 83            [24] 1164 	mov	dph,r5
+      000394 8E F0            [24] 1165 	mov	b,r6
+      000396 EF               [12] 1166 	mov	a,r7
+      000397 12r00r7F         [24] 1167 	lcall	_screenPrvRegWriteGuts
+                                   1168 ;	screenSegmented.c:107: return false;
+      00039A 40 01            [24] 1169 	jc	00136$
+      00039C 22               [24] 1170 	ret
+      00039D                       1171 00136$:
+                                   1172 ;	screenSegmented.c:109: if (!screenPrvRegWrite(0x19, 0x082514))
+      00039D 90r00r04         [24] 1173 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0003A0 74 19            [12] 1174 	mov	a,#0x19
+      0003A2 F0               [24] 1175 	movx	@dptr,a
+      0003A3 90 25 14         [24] 1176 	mov	dptr,#0x2514
+      0003A6 75 F0 08         [24] 1177 	mov	b,#0x08
+      0003A9 E4               [12] 1178 	clr	a
+      0003AA 12r00r7F         [24] 1179 	lcall	_screenPrvRegWriteGuts
+                                   1180 ;	screenSegmented.c:110: return false;
+      0003AD 40 01            [24] 1181 	jc	00138$
+      0003AF 22               [24] 1182 	ret
+      0003B0                       1183 00138$:
+                                   1184 ;	screenSegmented.c:111: if (!screenPrvRegWrite(0x1a, 0xa02000))
+      0003B0 90r00r04         [24] 1185 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0003B3 74 1A            [12] 1186 	mov	a,#0x1a
+      0003B5 F0               [24] 1187 	movx	@dptr,a
+      0003B6 90 20 00         [24] 1188 	mov	dptr,#0x2000
+      0003B9 75 F0 A0         [24] 1189 	mov	b,#0xa0
+      0003BC E4               [12] 1190 	clr	a
+      0003BD 12r00r7F         [24] 1191 	lcall	_screenPrvRegWriteGuts
+                                   1192 ;	screenSegmented.c:112: return false;
+      0003C0 40 01            [24] 1193 	jc	00140$
+      0003C2 22               [24] 1194 	ret
+      0003C3                       1195 00140$:
+                                   1196 ;	screenSegmented.c:115: if (!screenPrvRegWrite(0x00, inverted ? 0xa0001c : 0x80001c))
+      0003C3 30*01 0A         [24] 1197 	jnb	_screenDraw_PARM_2,00154$
+      0003C6 7C 1C            [12] 1198 	mov	r4,#0x1c
+      0003C8 7D 00            [12] 1199 	mov	r5,#0x00
+      0003CA 7E A0            [12] 1200 	mov	r6,#0xa0
+      0003CC 7F 00            [12] 1201 	mov	r7,#0x00
+      0003CE 80 08            [24] 1202 	sjmp	00155$
+      0003D0                       1203 00154$:
+      0003D0 7C 1C            [12] 1204 	mov	r4,#0x1c
+      0003D2 7D 00            [12] 1205 	mov	r5,#0x00
+      0003D4 7E 80            [12] 1206 	mov	r6,#0x80
+      0003D6 7F 00            [12] 1207 	mov	r7,#0x00
+      0003D8                       1208 00155$:
+      0003D8 90r00r04         [24] 1209 	mov	dptr,#_screenPrvRegWriteGuts_PARM_2
+      0003DB E4               [12] 1210 	clr	a
+      0003DC F0               [24] 1211 	movx	@dptr,a
+      0003DD 8C 82            [24] 1212 	mov	dpl,r4
+      0003DF 8D 83            [24] 1213 	mov	dph,r5
+      0003E1 8E F0            [24] 1214 	mov	b,r6
+      0003E3 EF               [12] 1215 	mov	a,r7
+      0003E4 12r00r7F         [24] 1216 	lcall	_screenPrvRegWriteGuts
+                                   1217 ;	screenSegmented.c:116: return false;
+      0003E7 40 01            [24] 1218 	jc	00145$
+      0003E9 22               [24] 1219 	ret
+      0003EA                       1220 00145$:
+                                   1221 ;	screenSegmented.c:118: timerDelay(TIMER_TICKS_PER_SECOND / 1000);
+      0003EA 90 05 35         [24] 1222 	mov	dptr,#0x0535
+      0003ED E4               [12] 1223 	clr	a
+      0003EE F5 F0            [12] 1224 	mov	b,a
+      0003F0 12r00r00         [24] 1225 	lcall	_timerDelay
+                                   1226 ;	screenSegmented.c:120: screen_start_time = timerGet();
+      0003F3 12r00r00         [24] 1227 	lcall	_timerGet
+      0003F6 AC 82            [24] 1228 	mov	r4,dpl
+      0003F8 AD 83            [24] 1229 	mov	r5,dph
+      0003FA AE F0            [24] 1230 	mov	r6,b
+      0003FC FF               [12] 1231 	mov	r7,a
+      0003FD 90r00r00         [24] 1232 	mov	dptr,#_screen_start_time
+      000400 EC               [12] 1233 	mov	a,r4
+      000401 F0               [24] 1234 	movx	@dptr,a
+      000402 ED               [12] 1235 	mov	a,r5
+      000403 A3               [24] 1236 	inc	dptr
+      000404 F0               [24] 1237 	movx	@dptr,a
+      000405 EE               [12] 1238 	mov	a,r6
+      000406 A3               [24] 1239 	inc	dptr
+      000407 F0               [24] 1240 	movx	@dptr,a
+      000408 EF               [12] 1241 	mov	a,r7
+      000409 A3               [24] 1242 	inc	dptr
+      00040A F0               [24] 1243 	movx	@dptr,a
+                                   1244 ;	screenSegmented.c:121: display_is_drawing = 1;
+                                   1245 ;	assignBit
+      00040B D2*00            [12] 1246 	setb	_display_is_drawing
+                                   1247 ;	screenSegmented.c:122: return true;
+      00040D D3               [12] 1248 	setb	c
+                                   1249 ;	screenSegmented.c:123: }
+      00040E 22               [24] 1250 	ret
+                                   1251 ;------------------------------------------------------------
+                                   1252 ;Allocation info for local variables in function 'display_end'
+                                   1253 ;------------------------------------------------------------
+                                   1254 ;	screenSegmented.c:125: void display_end()
+                                   1255 ;	-----------------------------------------
+                                   1256 ;	 function display_end
+                                   1257 ;	-----------------------------------------
+      00040F                       1258 _display_end:
+                                   1259 ;	screenSegmented.c:127: P1_7 = 0; // assert reset
+                                   1260 ;	assignBit
+      00040F C2 97            [12] 1261 	clr	_P1_7
+                                   1262 ;	screenSegmented.c:128: timerDelay(TIMER_TICKS_PER_SECOND / 100);
+      000411 90 34 15         [24] 1263 	mov	dptr,#0x3415
+      000414 E4               [12] 1264 	clr	a
+      000415 F5 F0            [12] 1265 	mov	b,a
+      000417 12r00r00         [24] 1266 	lcall	_timerDelay
+                                   1267 ;	screenSegmented.c:129: P2_2 = 0; // power it dowm
+                                   1268 ;	assignBit
+      00041A C2 A2            [12] 1269 	clr	_P2_2
+                                   1270 ;	screenSegmented.c:131: P1FUNC &= ~0x40;
+      00041C 53 AE BF         [24] 1271 	anl	_P1FUNC,#0xbf
+                                   1272 ;	screenSegmented.c:132: }
+      00041F 22               [24] 1273 	ret
+                                   1274 ;------------------------------------------------------------
+                                   1275 ;Allocation info for local variables in function 'is_drawing'
+                                   1276 ;------------------------------------------------------------
+                                   1277 ;	screenSegmented.c:134: uint8_t is_drawing()
+                                   1278 ;	-----------------------------------------
+                                   1279 ;	 function is_drawing
+                                   1280 ;	-----------------------------------------
+      000420                       1281 _is_drawing:
+                                   1282 ;	screenSegmented.c:136: if (display_is_drawing)
+      000420 30*00 43         [24] 1283 	jnb	_display_is_drawing,00105$
+                                   1284 ;	screenSegmented.c:138: if (!P2_0 || (timerGet() - screen_start_time > (TIMER_TICKS_PER_SECOND*3)))
+      000423 30 A0 33         [24] 1285 	jnb	_P2_0,00101$
+      000426 12r00r00         [24] 1286 	lcall	_timerGet
+      000429 AC 82            [24] 1287 	mov	r4,dpl
+      00042B AD 83            [24] 1288 	mov	r5,dph
+      00042D AE F0            [24] 1289 	mov	r6,b
+      00042F FF               [12] 1290 	mov	r7,a
+      000430 90r00r00         [24] 1291 	mov	dptr,#_screen_start_time
+      000433 E0               [24] 1292 	movx	a,@dptr
+      000434 F8               [12] 1293 	mov	r0,a
+      000435 A3               [24] 1294 	inc	dptr
+      000436 E0               [24] 1295 	movx	a,@dptr
+      000437 F9               [12] 1296 	mov	r1,a
+      000438 A3               [24] 1297 	inc	dptr
+      000439 E0               [24] 1298 	movx	a,@dptr
+      00043A FA               [12] 1299 	mov	r2,a
+      00043B A3               [24] 1300 	inc	dptr
+      00043C E0               [24] 1301 	movx	a,@dptr
+      00043D FB               [12] 1302 	mov	r3,a
+      00043E EC               [12] 1303 	mov	a,r4
+      00043F C3               [12] 1304 	clr	c
+      000440 98               [12] 1305 	subb	a,r0
+      000441 FC               [12] 1306 	mov	r4,a
+      000442 ED               [12] 1307 	mov	a,r5
+      000443 99               [12] 1308 	subb	a,r1
+      000444 FD               [12] 1309 	mov	r5,a
+      000445 EE               [12] 1310 	mov	a,r6
+      000446 9A               [12] 1311 	subb	a,r2
+      000447 FE               [12] 1312 	mov	r6,a
+      000448 EF               [12] 1313 	mov	a,r7
+      000449 9B               [12] 1314 	subb	a,r3
+      00044A FF               [12] 1315 	mov	r7,a
+      00044B C3               [12] 1316 	clr	c
+      00044C 74 FF            [12] 1317 	mov	a,#0xff
+      00044E 9C               [12] 1318 	subb	a,r4
+      00044F 74 08            [12] 1319 	mov	a,#0x08
+      000451 9D               [12] 1320 	subb	a,r5
+      000452 74 3D            [12] 1321 	mov	a,#0x3d
+      000454 9E               [12] 1322 	subb	a,r6
+      000455 E4               [12] 1323 	clr	a
+      000456 9F               [12] 1324 	subb	a,r7
+      000457 50 09            [24] 1325 	jnc	00102$
+      000459                       1326 00101$:
+                                   1327 ;	screenSegmented.c:140: display_end();
+      000459 12r04r0F         [24] 1328 	lcall	_display_end
+                                   1329 ;	screenSegmented.c:141: display_is_drawing = 0;
+                                   1330 ;	assignBit
+      00045C C2*00            [12] 1331 	clr	_display_is_drawing
+                                   1332 ;	screenSegmented.c:142: return 0;
+      00045E 75 82 00         [24] 1333 	mov	dpl,#0x00
+      000461 22               [24] 1334 	ret
+      000462                       1335 00102$:
+                                   1336 ;	screenSegmented.c:144: return 1;
+      000462 75 82 01         [24] 1337 	mov	dpl,#0x01
+      000465 22               [24] 1338 	ret
+      000466                       1339 00105$:
+                                   1340 ;	screenSegmented.c:146: return 0;
+      000466 75 82 00         [24] 1341 	mov	dpl,#0x00
+                                   1342 ;	screenSegmented.c:147: }
+      000469 22               [24] 1343 	ret
+                                   1344 	.area CSEG    (CODE)
+                                   1345 	.area CONST   (CODE)
+                                   1346 	.area XINIT   (CODE)
+      000000                       1347 __xinit__screen_start_time:
+      000000 00 00 00 00           1348 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+                                   1349 	.area CABS    (ABS,CODE)
