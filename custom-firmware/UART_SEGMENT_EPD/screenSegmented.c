@@ -168,7 +168,7 @@ __bit screenDraw(const uint8_t __xdata *data, __bit inverted, __bit custom_lut)
 		if (!screenPrvRegWrite(0x00, inverted ? UPDATE_NORMAL : UPDATE_INVERT)) // LUT 1,2,3 used.
 			return false;
 	}
-}
+
 timerDelay(TIMER_TICKS_PER_SECOND / 1000);
 
 screen_start_time = timerGet();
