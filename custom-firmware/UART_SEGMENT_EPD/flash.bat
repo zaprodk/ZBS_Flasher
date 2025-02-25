@@ -1,1 +1,1 @@
-zbs_flasher.exe COM5 write main.bin reset
+zbs_flasher.exe -p COM6 write main.bin reset
